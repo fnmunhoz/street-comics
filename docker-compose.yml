@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  street-comics-api:
+    build:
+      dockerfile: ./street-comics-api/Dockerfile
+      context: .
+    command: bundle exec puma -C config/puma.rb
+    working_dir: /opt/app
+    volumes:
+      - ./street-comics-api:/opt/app
+      - street-comics-api-bundle_path:/usr/local/bundle
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./street-comics-api/.env
+
+volumes:
+  street-comics-api-bundle_path:
