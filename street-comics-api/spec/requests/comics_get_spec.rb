@@ -55,10 +55,20 @@ describe "Comics GET request" do
 
     expect(json_response_body).to eq(stub_message)
   end
+
+  it 'only forwards permitted params to the marvel API' do
+    stub_comics_get
+      .with(query: hash_excluding({ "provider": "marvel", "other": "value" }))
+      .to_return(status: 200)
+
+    get '/api/v1/comics?provider=marvel&other=value'
+
+    expect(response.status).to eq(200)
+  end
 end
 
 def stub_comics_get_with(query_params: {}, status_code: 200, body_response: nil)
-  stub_request(:get, "https://gateway.marvel.com/v1/public/comics")
+  stub_comics_get
     .with(
       query: hash_including(query_params),
     )
@@ -67,6 +77,10 @@ def stub_comics_get_with(query_params: {}, status_code: 200, body_response: nil)
       body: JSON.generate(body_response),
       headers: {}
     )
+end
+
+def stub_comics_get
+  stub_request(:get, "https://gateway.marvel.com/v1/public/comics")
 end
 
 def json_response_body

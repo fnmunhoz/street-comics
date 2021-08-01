@@ -8,7 +8,11 @@ module Api
           limit: 15,
         }
 
-        response = client.comics(params.with_defaults(default_params))
+        client_params = params
+                          .with_defaults(default_params)
+                          .permit(:offset, :limit)
+
+        response = client.comics(client_params)
 
         render json: response, status: 200
       end
