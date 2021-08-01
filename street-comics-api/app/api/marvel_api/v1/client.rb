@@ -33,11 +33,11 @@ module MarvelApi
       end
 
       def public_api_key
-        'public_api_key'
+        Rails.application.credentials.marvel_api[:v1][:public_api_key]
       end
 
       def private_api_key
-        'private_api_key'
+        Rails.application.credentials.marvel_api[:v1][:private_api_key]
       end
     end
   end

@@ -2,6 +2,17 @@ require 'rails_helper'
 
 describe "Comics GET request" do
 
+  before do
+    stub_credentials = {
+      v1: {
+        public_api_key: 'public_api_key',
+        private_api_key: 'private_api_key',
+      }
+    }
+
+    allow(Rails.application.credentials).to receive(:marvel_api).and_return(stub_credentials)
+  end
+
   it 'accepts "marvel" as a provider' do
     stub_comics_get_with
 
