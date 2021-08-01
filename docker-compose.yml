@@ -14,5 +14,18 @@ services:
     env_file:
       - ./street-comics-api/.env
 
+  street-comics-frontend:
+    image: node:14.17.4
+    command: npm run start
+    working_dir: /opt/app
+    volumes:
+      - ./street-comics-frontend:/opt/app
+      - street-comics-frontend-node_modules:/opt/app/node_modules
+    links:
+      - street-comics-api
+    ports:
+      - "4000:3000"
+
 volumes:
   street-comics-api-bundle_path:
+  street-comics-frontend-node_modules:
