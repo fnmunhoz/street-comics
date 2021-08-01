@@ -1,0 +1,23 @@
+name: street-comics-api-ci
+on: [push]
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    env:
+      WORKING_DIR: ./street-comics-api
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby and install gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          working-directory: ${{env.WORKING_DIR}}
+
+      - name: Run tests
+        run: bin/rspec --format documentation
+        working-directory: ${{env.WORKING_DIR}}
