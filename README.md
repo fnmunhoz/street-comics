@@ -65,9 +65,11 @@ Then edit the `street-comics-api/.env` file and set the `RAILS_MASTER_KEY` with 
 
 ### Running the app
 
-After the credentials are set, you should be ready to run the app with:
+After the credentials are set, you should be ready to install the dependencies and to run the app with:
 
 ```sh
+docker-compose run --rm street-comics-api bundle install
+docker-compose run --rm street-comics-frontend npm install
 docker-compose up
 ```
 
@@ -75,9 +77,9 @@ After that you should be able to open the app on the browser at the following ad
 
 #### Alternative
 
-This is an optional step, in case you don't have the `RAILS_MASTER_KEY` value. If you have, you can skip it.
+This is an **optional step**, in case you don't have the `RAILS_MASTER_KEY` value. If you have, you can skip it.
 
-Note: in the future I plan to make this process easier, but if you prefer, it's possible to run the app with your own credentials, just replace the current [street-comics-api/config/credentials.yml.enc](https://github.com/fnmunhoz/street-comics/blob/main/street-comics-api/config/credentials.yml.enc) file and use the following structure:
+**Note:** in the future I plan to make this process easier, but if you prefer, it's possible to run the app with your own credentials, just replace the current [street-comics-api/config/credentials.yml.enc](https://github.com/fnmunhoz/street-comics/blob/main/street-comics-api/config/credentials.yml.enc) file and use the following structure:
 
 ```yml
 secret_key_base: <value>
