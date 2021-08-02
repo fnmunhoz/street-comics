@@ -45,8 +45,27 @@ git clone git@github.com:fnmunhoz/street-comics.git
 
 ## Starting the app.
 
-To start the app, make sure you are inside the repository root folder and then run the following command:
+To start the app, make sure you are inside the repository root folder.
 
+### Setting up the credentials
+
+As of now, the API credentials are encripted using the [Rails credentials](https://guides.rubyonrails.org/security.html#custom-credentials) mechanism.
+
+So that, you will need access to the current `RAILS_MASTER_KEY` value and set it on your local `street-comics-api/.env` file.
+
+So, first create a copy of the [sample file](https://github.com/fnmunhoz/street-comics/blob/main/street-comics-api/.env.sample):
+
+```sh
+cp -a street-comics-api/.env.sample street-comics-api/.env
+```
+
+Then edit the `street-comics-api/.env` file and set the `RAILS_MASTER_KEY` with the proper value.
+
+**Note: as of now, you will need to reach out to me to get the value, sorry about that!**
+
+### Running the app
+
+After the credentials are set, you should be ready to run the app with:
 
 ```sh
 docker-compose up
@@ -54,6 +73,22 @@ docker-compose up
 
 After that you should be able to open the app on the browser at the following address: http://localhost:4000
 
+#### Alternative
+
+This is an optional step, in case you don't have the `RAILS_MASTER_KEY` value. If you have, you can skip it.
+
+Note: in the future I plan to make this process easier, but if you prefer, it's possible to run the app with your own credentials, just replace the current [street-comics-api/config/credentials.yml.enc](https://github.com/fnmunhoz/street-comics/blob/main/street-comics-api/config/credentials.yml.enc) file and use the following structure:
+
+```yml
+secret_key_base: <value>
+
+marvel_api:
+  v1:
+    public_api_key: <value>
+    private_api_key: <value>
+```
+
+You can generate a pair of API keys at the [Marvel developers portal](https://developer.marvel.com/).
 
 ## Cleaning up
 
