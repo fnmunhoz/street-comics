@@ -10,9 +10,16 @@ export type ComicsListApiData = {
 
 export type ComicsApiParams = {
   provider: ComicsProvider;
+  offset: number;
+  limit: number;
+  order_by_field: ComicsOrderByField;
+  order_by_direction: ComicsOrderByDirection;
 };
 
 export type ComicsProvider = 'marvel';
+
+export type ComicsOrderByField = 'releaseDate' | 'title';
+export type ComicsOrderByDirection = 'asc' | 'desc';
 
 export type ComicItem = {
   id: number;

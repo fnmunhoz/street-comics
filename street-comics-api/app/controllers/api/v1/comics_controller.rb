@@ -6,11 +6,13 @@ module Api
         default_params = {
           offset: 0,
           limit: 15,
+          order_by_field: 'releaseDate',
+          order_by_direction: 'desc'
         }
 
         client_params = params
                           .with_defaults(default_params)
-                          .permit(:offset, :limit)
+                          .permit(:offset, :limit, :order_by_field, :order_by_direction)
 
         response = client.comics(client_params)
 

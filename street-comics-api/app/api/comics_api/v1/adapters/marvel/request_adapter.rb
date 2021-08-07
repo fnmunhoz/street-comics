@@ -7,7 +7,7 @@ module ComicsApi
           def initialize(args = nil) end
 
           def comics(params)
-            params
+            ComicsRequestAdapter.new(params).create
           end
         end
       end

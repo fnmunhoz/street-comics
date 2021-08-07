@@ -43,6 +43,28 @@ describe "Comics GET request" do
     expect(response.status).to eq(200)
   end
 
+  it 'accepts order_by_field and order_by_direction via query params' do
+    stub_comics_get_with(
+      {
+        query_params: { "orderBy": "title" },
+      })
+
+    get '/api/v1/comics?provider=marvel&order_by_field=title&order_by_direction=asc'
+
+    expect(response.status).to eq(200)
+  end
+
+  it 'has a default order_by_field and order_by_direction' do
+    stub_comics_get_with(
+      {
+        query_params: { "orderBy": "-onsaleDate" },
+      })
+
+    get '/api/v1/comics?provider=marvel'
+
+    expect(response.status).to eq(200)
+  end
+
   it 'adapts the marvel response to the comics response when body has results' do
     stub_comics_get_with(
       {
