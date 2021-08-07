@@ -1,13 +1,10 @@
 export type ComicsListApiData = {
-  status: number;
-  body: {
-    data: {
-      offset: number;
-      limit: number;
-      total: number;
-      count: number;
-      results: ComicItem[];
-    };
+  data: {
+    offset: number;
+    limit: number;
+    total: number;
+    count: number;
+    items: ComicItem[];
   };
 };
 
