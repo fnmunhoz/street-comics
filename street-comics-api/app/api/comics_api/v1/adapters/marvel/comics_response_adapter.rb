@@ -15,22 +15,22 @@ module ComicsApi
           end
 
           def create
-            Models::ComicsResponse.new(body: create_comics_data)
+            ComicsApi::V1::Models::ComicsResponse.new(body: create_comics_data)
           end
 
           private
 
           def create_comics_data
-            Models::ComicsData.new(data: create_comics_list)
+            ComicsApi::V1::Models::ComicsData.new(data: create_comics_list)
           end
 
           def create_comics_list
-            Models::ComicsList.new(items: create_comics_items)
+            ComicsApi::V1::Models::ComicsList.new(items: create_comics_items)
           end
 
           def create_comics_items
             results.map do |item|
-              Models::ComicsItem.new(id: item[:id], title: item[:title])
+              ComicsApi::V1::Models::ComicsItem.new(id: item[:id], title: item[:title])
             end
           end
 
