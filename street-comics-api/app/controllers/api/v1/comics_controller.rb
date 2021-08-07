@@ -14,7 +14,7 @@ module Api
 
         response = client.comics(client_params)
 
-        render json: response, status: 200
+        render json: response.body, status: 200
       end
 
       private

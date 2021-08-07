@@ -43,17 +43,26 @@ describe "Comics GET request" do
     expect(response.status).to eq(200)
   end
 
-  it 'forwards the marvel response' do
-    stub_message = { "message" => "stub" }
-
+  it 'adapts the marvel response to the comics response when body has results' do
     stub_comics_get_with(
       {
-        body_response: stub_message
+        body_response: { data: { results: [{ id: 1, title: "Sample title" }] } }
       })
 
     get '/api/v1/comics?provider=marvel'
 
-    expect(json_response_body).to eq(stub_message)
+    expect(response.body).to eq({ data: { items: [{ id: 1, title: "Sample title" }] } }.to_json)
+  end
+
+  it 'adapts the marvel response to the comics response when body is empty' do
+    stub_comics_get_with(
+      {
+        body_response: nil
+      })
+
+    get '/api/v1/comics?provider=marvel'
+
+    expect(response.body).to eq({ data: { items: [] } }.to_json)
   end
 
   it 'only forwards permitted params to the marvel API' do
@@ -81,8 +90,4 @@ end
 
 def stub_comics_get
   stub_request(:get, "https://gateway.marvel.com/v1/public/comics")
-end
-
-def json_response_body
-  JSON.parse(response.body)["body"]
 end

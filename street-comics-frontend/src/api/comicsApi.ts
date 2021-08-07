@@ -12,7 +12,7 @@ export const useComicsApi = (
     async () => {
       const response = await axios.get<ComicsListApiData>(endpoint, { params });
 
-      return response.data.body.data;
+      return response.data.data;
     },
     { retry: false }
   );

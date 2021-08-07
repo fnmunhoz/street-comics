@@ -36,7 +36,7 @@ const ComicsPage = () => {
           <Heading>Marvel</Heading>
 
           <UnorderedList textAlign="left">
-            {result.data.results.map((comic) => (
+            {result.data.items.map((comic) => (
               <ListItem key={comic.id}>{comic.title}</ListItem>
             ))}
           </UnorderedList>

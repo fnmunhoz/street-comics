@@ -5,20 +5,17 @@ import { server } from './mocks/server';
 import { ComicsListApiData } from './types';
 
 const defaultComicsApiData: ComicsListApiData = {
-  status: 200,
-  body: {
-    data: {
-      offset: 0,
-      limit: 15,
-      total: 100,
-      count: 1,
-      results: [
-        {
-          id: 82967,
-          title: 'Marvel Previews (2017)',
-        },
-      ],
-    },
+  data: {
+    offset: 0,
+    limit: 15,
+    total: 100,
+    count: 1,
+    items: [
+      {
+        id: 82967,
+        title: 'Marvel Previews (2017)',
+      },
+    ],
   },
 };
 

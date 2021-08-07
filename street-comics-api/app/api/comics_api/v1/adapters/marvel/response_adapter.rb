@@ -3,11 +3,11 @@ module ComicsApi
     module Adapters
       module Marvel
         class ResponseAdapter
-          
+
           def initialize(args = nil) end
 
           def comics(response)
-            response
+            ComicsResponseAdapter.new(response).create
           end
         end
       end
