@@ -46,7 +46,10 @@ test('renders the Comics page title', async () => {
 
   render(<App />);
 
-  const pageTitle = await screen.findByRole('heading', { name: /marvel/i });
+  const pageTitle = await screen.findByRole('heading', {
+    name: /marvel/i,
+    level: 2,
+  });
 
   expect(pageTitle).toBeInTheDocument();
 });

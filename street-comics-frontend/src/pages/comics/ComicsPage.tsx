@@ -1,48 +1,29 @@
-import {
-  Box,
-  VStack,
-  Grid,
-  UnorderedList,
-  ListItem,
-  Heading,
-  Spinner,
-  Alert,
-  AlertIcon,
-} from '@chakra-ui/react';
+import { Heading, WrapItem, Wrap } from '@chakra-ui/react';
 import { useComicsApi } from '../../api/comicsApi';
+import ComicsLayout from '../../components/layouts/ComicsLayout';
+import GlobalError from '../../components/ui/GlobalError';
+import GlobalLoading from '../../components/ui/GlobalLoading';
+import ComicsItem from './ComicsItem';
 
 const ComicsPage = () => {
   const result = useComicsApi();
 
-  if (result.isLoading || result.isIdle)
-    return (
-      <Box textAlign="center">
-        <Spinner aria-label="Loading..." />
-      </Box>
-    );
-
-  if (result.isError)
-    return (
-      <Alert status="error">
-        <AlertIcon />
-        Something went wrong
-      </Alert>
-    );
+  if (result.isLoading || result.isIdle) return <GlobalLoading />;
+  if (result.isError) return <GlobalError />;
 
   return (
-    <Box textAlign="center">
-      <Grid minH="100vh" p={3}>
-        <VStack spacing={16}>
-          <Heading>Marvel</Heading>
-
-          <UnorderedList textAlign="left">
-            {result.data.items.map((comic) => (
-              <ListItem key={comic.id}>{comic.title}</ListItem>
-            ))}
-          </UnorderedList>
-        </VStack>
-      </Grid>
-    </Box>
+    <ComicsLayout>
+      <Heading paddingTop="5" paddingBottom="5">
+        Marvel
+      </Heading>
+      <Wrap justify="center">
+        {result.data.items.map((comicsItem) => (
+          <WrapItem key={comicsItem.id}>
+            <ComicsItem comicsItem={comicsItem} />
+          </WrapItem>
+        ))}
+      </Wrap>
+    </ComicsLayout>
   );
 };
 
