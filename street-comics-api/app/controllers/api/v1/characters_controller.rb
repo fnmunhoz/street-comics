@@ -12,7 +12,13 @@ module Api
 
         client_params = params
                           .with_defaults(default_params)
-                          .permit(:offset, :limit, :order_by_field, :order_by_direction)
+                          .permit(
+                            :offset,
+                            :limit,
+                            :order_by_field,
+                            :order_by_direction,
+                            :name_starts_with,
+                          )
 
         response = client.characters(client_params)
 

@@ -19,7 +19,8 @@ module ComicsApi
               limit: create_limit,
               offset: create_offset,
               order_by: create_order_by,
-            ).to_hash
+              name_starts_with: create_name_starts_with
+            ).to_hash.filter { |_, v| v.present? }
           end
 
           private
@@ -34,6 +35,10 @@ module ComicsApi
 
           def create_order_by
             "#{order_by_direction}#{order_by_field}"
+          end
+
+          def create_name_starts_with
+            params.fetch(:name_starts_with) { nil }
           end
 
           def order_by_field

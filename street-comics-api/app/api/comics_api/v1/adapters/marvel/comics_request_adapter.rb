@@ -19,7 +19,8 @@ module ComicsApi
               limit: create_limit,
               offset: create_offset,
               order_by: create_order_by,
-            ).to_hash
+              characters_ids: create_characters_ids,
+            ).to_hash.filter { |_, v| v.present? }
           end
 
           private
@@ -34,6 +35,10 @@ module ComicsApi
 
           def create_order_by
             "#{order_by_direction}#{order_by_field}"
+          end
+
+          def create_characters_ids
+            params.fetch(:characters_ids) { nil }
           end
 
           def order_by_field
