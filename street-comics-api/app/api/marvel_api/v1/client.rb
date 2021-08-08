@@ -8,6 +8,10 @@ module MarvelApi
         client.get('comics', params)
       end
 
+      def characters(params)
+        client.get('characters', params)
+      end
+
       private
 
       def client

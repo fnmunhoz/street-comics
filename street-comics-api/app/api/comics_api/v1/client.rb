@@ -18,6 +18,12 @@ module ComicsApi
         response_adapter.comics(response)
       end
 
+      def characters(params)
+        client_params = request_adapter.characters(params)
+        response = client.characters(client_params)
+        response_adapter.characters(response)
+      end
+
       private
 
       def find_client(provider)
