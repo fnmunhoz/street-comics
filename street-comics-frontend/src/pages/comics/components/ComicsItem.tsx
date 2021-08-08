@@ -1,7 +1,7 @@
 import { Box, Image } from '@chakra-ui/react';
-import { ComicItem } from '../../types';
+import { ComicItem } from '../../../types';
 
-import fallback from '../../images/comics/fallback.jpg';
+import fallback from '../../../images/comics/fallback.jpg';
 
 const ComicsItem = ({ comicsItem }: { comicsItem: ComicItem }) => {
   return (
