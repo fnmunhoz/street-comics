@@ -30,8 +30,20 @@ module ComicsApi
 
           def create_comics_items
             results.map do |item|
-              ComicsApi::V1::Models::ComicsItem.new(id: item[:id], title: item[:title])
+              ComicsApi::V1::Models::ComicsItem.new(
+                id: item[:id],
+                title: item[:title],
+                thumbnail: create_comics_item_thumbnail(item)
+              )
             end
+          end
+
+          def create_comics_item_thumbnail(item)
+            path = item[:thumbnail][:path]
+            variant = 'portrait_incredible'
+            extension = item[:thumbnail][:extension]
+
+            "#{path}/#{variant}.#{extension}"
           end
 
           def results
