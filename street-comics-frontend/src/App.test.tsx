@@ -1,8 +1,13 @@
-import { render, screen } from '@testing-library/react';
-import { rest } from 'msw';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { RequestParams, rest } from 'msw';
 import App from './App';
 import { server } from './mocks/server';
-import { ComicsListApiData } from './types';
+import {
+  CharactersListApiData,
+  ComicsApiParams,
+  ComicsListApiData,
+} from './types';
 
 const defaultComicsApiData: ComicsListApiData = {
   data: {
@@ -20,9 +25,40 @@ const defaultComicsApiData: ComicsListApiData = {
   },
 };
 
-const setupComicsGetHTTPHandler = (data: ComicsListApiData) => {
+const defaultCharactersData: CharactersListApiData = {
+  data: {
+    offset: 0,
+    limit: 15,
+    total: 0,
+    count: 0,
+    items: [
+      { id: 1, name: 'Dead Girl' },
+      { id: 2, name: 'Deadpool' },
+    ],
+  },
+};
+
+const setupComicsGetHTTPHandler = (
+  data: ComicsListApiData,
+  onGetComicsCallback?: (params: Partial<ComicsApiParams>) => void
+) => {
   server.use(
     rest.get('/api/v1/comics', (req, res, ctx) => {
+      onGetComicsCallback?.({
+        characters_ids: req.url.searchParams.get('characters_ids'),
+      });
+      return res(
+        ctx.status(200),
+
+        ctx.json(data)
+      );
+    })
+  );
+};
+
+const setupCharactersGetHTTPHandler = (data: CharactersListApiData) => {
+  server.use(
+    rest.get('/api/v1/characters', (req, res, ctx) => {
       return res(
         ctx.status(200),
 
@@ -74,6 +110,43 @@ test('renders a comic thumbnail', async () => {
 
   expect(thumbnail).toBeInTheDocument();
   expect(thumbnail).toHaveAttribute('src', 'fallback.jpg');
+});
+
+test('renders an empty state if there are no comics', async () => {
+  const emptyData: ComicsListApiData = {
+    data: {
+      offset: 0,
+      limit: 15,
+      total: 0,
+      count: 0,
+      items: [],
+    },
+  };
+  setupComicsGetHTTPHandler(emptyData);
+
+  render(<App />);
+
+  const alert = await screen.findByText(/no comics found/i);
+
+  expect(alert).toBeInTheDocument();
+});
+
+test('filtering by character returns filtered results', async () => {
+  const onGetComicsCallback = jest.fn();
+  setupComicsGetHTTPHandler(defaultComicsApiData, onGetComicsCallback);
+  setupCharactersGetHTTPHandler(defaultCharactersData);
+
+  render(<App />);
+  const filterInput = await screen.findByPlaceholderText(
+    /filter by character/i
+  );
+  userEvent.type(filterInput, 'dead');
+
+  await waitFor(() => {
+    expect(onGetComicsCallback).toHaveBeenLastCalledWith({
+      characters_ids: '1,2',
+    });
+  });
 });
 
 test('renders an error if the request fails', async () => {
