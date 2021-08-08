@@ -35,4 +35,18 @@ describe 'ComicsApi::V1::Adapters::Marvel::ComicsRequestAdapter' do
 
     expect(output_params).to eq({ offset: 0, limit: 1, orderBy: '-title' })
   end
+
+  it 'should adapt "characters_ids" when present' do
+    input_params = {
+      offset: 0,
+      limit: 1,
+      order_by_field: 'title',
+      order_by_direction: 'desc',
+      characters_ids: '1,2,3',
+    }
+
+    output_params = subject.create(input_params)
+
+    expect(output_params).to include({ characters: '1,2,3' })
+  end
 end
