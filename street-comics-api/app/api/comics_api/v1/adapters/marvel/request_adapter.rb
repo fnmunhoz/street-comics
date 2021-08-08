@@ -9,6 +9,10 @@ module ComicsApi
           def comics(params)
             ComicsRequestAdapter.new(params).create
           end
+
+          def characters(params)
+            CharactersRequestAdapter.new(params).create
+          end
         end
       end
     end

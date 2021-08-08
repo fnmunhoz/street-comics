@@ -9,6 +9,10 @@ module ComicsApi
           def comics(response)
             ComicsResponseAdapter.new(response).create
           end
+
+          def characters(response)
+            CharactersResponseAdapter.new(response).create
+          end
         end
       end
     end
