@@ -24,4 +24,5 @@ export type ComicsOrderByDirection = 'asc' | 'desc';
 export type ComicItem = {
   id: number;
   title: string;
+  thumbnail: string;
 };

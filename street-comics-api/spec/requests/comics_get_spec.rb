@@ -66,14 +66,25 @@ describe "Comics GET request" do
   end
 
   it 'adapts the marvel response to the comics response when body has results' do
+    item_mock = {
+      id: 1,
+      title: "Sample title",
+      thumbnail: { path: 'https://files.app.com/thumbnail', extension: 'jpg' }
+    }
     stub_comics_get_with(
       {
-        body_response: { data: { results: [{ id: 1, title: "Sample title" }] } }
+        body_response: { data: { results: [item_mock] } }
       })
 
     get '/api/v1/comics?provider=marvel'
 
-    expect(response.body).to eq({ data: { items: [{ id: 1, title: "Sample title" }] } }.to_json)
+    expected_item = {
+      id: 1,
+      title: "Sample title",
+      thumbnail: "https://files.app.com/thumbnail/portrait_incredible.jpg"
+    }
+
+    expect(response.body).to eq({ data: { items: [expected_item] } }.to_json)
   end
 
   it 'adapts the marvel response to the comics response when body is empty' do

@@ -37,7 +37,12 @@ describe 'ComicsApi::V1::Adapters::Marvel::ComicsResponseAdapter' do
   end
 
   it 'should have one item when there is a result' do
-    input_response = double(:response, body: { data: { results: [{ id: 1, title: "Comic title" }] } })
+    item = {
+      id: 1,
+      title: "Comic title",
+      thumbnail: { path: 'https://files.app.com/thumbnail', extension: 'jpg' }
+    }
+    input_response = double(:response, body: { data: { results: [item] } })
 
     output_response = subject.create(input_response)
 
@@ -45,5 +50,6 @@ describe 'ComicsApi::V1::Adapters::Marvel::ComicsResponseAdapter' do
     item0 = output_response.body.data.items[0]
     expect(item0.id).to eq(1)
     expect(item0.title).to eq("Comic title")
+    expect(item0.thumbnail).to eq("https://files.app.com/thumbnail/portrait_incredible.jpg")
   end
 end

@@ -1,4 +1,4 @@
-import { getRoles, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { rest } from 'msw';
 import App from './App';
 import { server } from './mocks/server';
@@ -14,6 +14,7 @@ const defaultComicsApiData: ComicsListApiData = {
       {
         id: 82967,
         title: 'Marvel Previews (2017)',
+        thumbnail: 'http://files.app.com/thumbnail.jpg',
       },
     ],
   },
@@ -61,6 +62,18 @@ test('renders a comic title', async () => {
 
   const pageTitle = await screen.findByText(/marvel previews/i);
   expect(pageTitle).toBeInTheDocument();
+});
+
+test('renders a comic thumbnail', async () => {
+  setupComicsGetHTTPHandler(defaultComicsApiData);
+
+  render(<App />);
+  const thumbnail = await screen.findByRole('img', {
+    name: 'Marvel Previews (2017)',
+  });
+
+  expect(thumbnail).toBeInTheDocument();
+  expect(thumbnail).toHaveAttribute('src', 'fallback.jpg');
 });
 
 test('renders an error if the request fails', async () => {
