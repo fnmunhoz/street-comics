@@ -3,9 +3,12 @@ import GlobalError from '../../components/ui/GlobalError';
 import GlobalLoading from '../../components/ui/GlobalLoading';
 import ComicsGrid from './components/ComicsGrid';
 import ComicsHeader from './components/ComicsHeader';
+import useFavoriteComics from './hooks/useFavoriteComics';
 import useFilteredComics from './hooks/useFilteredComics';
 
 const ComicsPage = () => {
+  const { isFavorite, toggleFavorite } = useFavoriteComics();
+
   const {
     data,
     isLoading,
@@ -26,6 +29,8 @@ const ComicsPage = () => {
         isEmpty={isEmpty}
         isFetching={isFetching}
         items={data?.items}
+        isFavorite={isFavorite}
+        toggleFavorite={toggleFavorite}
       />
     </ComicsLayout>
   );

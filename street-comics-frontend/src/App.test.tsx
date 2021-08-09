@@ -96,7 +96,7 @@ test('renders a comic title', async () => {
 
   render(<App />);
 
-  const pageTitle = await screen.findByText(/marvel previews/i);
+  const pageTitle = await screen.findByAltText(/marvel previews/i);
   expect(pageTitle).toBeInTheDocument();
 });
 

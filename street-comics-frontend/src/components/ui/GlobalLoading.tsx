@@ -4,7 +4,7 @@ import ComicsLayout from '../layouts/ComicsLayout';
 const GlobalLoading = () => (
   <ComicsLayout>
     <Box textAlign="center">
-      <Spinner aria-label="Loading..." />
+      <Spinner color="white" aria-label="Loading..." />
     </Box>
   </ComicsLayout>
 );
