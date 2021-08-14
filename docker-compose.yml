@@ -1,31 +1,47 @@
 version: "3.7"
 services:
-  street-comics-api:
+  api:
     build:
       dockerfile: ./street-comics-api/Dockerfile
       context: .
     command: bundle exec puma -C config/puma.rb
-    working_dir: /opt/app
+    working_dir: /opt/app/street-comics-api
     volumes:
-      - ./street-comics-api:/opt/app
-      - street-comics-api-bundle_path:/usr/local/bundle
+      - .:/opt/app
+      - api-bundle_path:/usr/local/bundle
     ports:
       - "3000:3000"
     env_file:
       - ./street-comics-api/.env
+    depends_on:
+      - api-solargraph
 
-  street-comics-frontend:
-    image: node:14.17.4
-    command: npm run start
-    working_dir: /opt/app
+  api-solargraph:
+    build:
+      dockerfile: ./street-comics-api/Dockerfile
+      context: .
+    command: "bundle exec solargraph socket --host=0.0.0.0 --port=7658"
+    working_dir: /opt/app/street-comics-api
     volumes:
-      - ./street-comics-frontend:/opt/app
-      - street-comics-frontend-node_modules:/opt/app/node_modules
+      - .:/opt/app
+      - api-bundle_path:/usr/local/bundle
+    ports:
+      - "7658:7658"
+
+  frontend:
+    build:
+      dockerfile: ./street-comics-frontend/Dockerfile
+      context: .
+    command: npm run start
+    working_dir: /opt/app/street-comics-frontend
+    volumes:
+      - .:/opt/app
+      - frontend-node_modules:/opt/app/street-comics-frontend/node_modules
     links:
-      - street-comics-api
+      - api
     ports:
       - "4000:3000"
 
 volumes:
-  street-comics-api-bundle_path:
-  street-comics-frontend-node_modules:
+  api-bundle_path:
+  frontend-node_modules:
