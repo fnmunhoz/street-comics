@@ -1,0 +1,17 @@
+{
+  "ruby.lint": {
+    "rubocop": true,
+  },
+  "ruby.useLanguageServer": true,
+  "ruby.useBundler": true,
+  "solargraph.formatting": true,
+  "solargraph.useBundler": true,
+  "solargraph.transport": "external",
+  "solargraph.externalServer": {
+    "host": "api-solargraph",
+    "port": 7658
+  },
+  "[ruby]": {
+    "editor.defaultFormatter": "castwide.solargraph"
+  }
+}
